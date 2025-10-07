@@ -1,0 +1,20 @@
+def RK2(x0,y0,xn,h,f):
+     n=int((xn-x0)/h)
+     x=[x0]
+     y=[y0]
+     print('\n The y(x) in each Interval \n')
+     for i in range(n+1):
+              k1=h*f(x[i],y[i])
+              k2=h*f(x[i]+h,y[i]+k1)
+              y_new=y[i]+(k1+k2)/2
+              x_new=x[i]+h
+              x.append(x_new)
+              y.append(y_new)
+              print(f"y({x_new})={y_new}")
+     print('By Range Kutta Second Order Method the value of Y at %0.3f is %0.3f:'%(x_new,y_new))
+     return x,y              
+
+ def f(x,y):
+          return 1 + y**2
+
+RK2 ( 0, 0, 0.15, 0.05, f )
