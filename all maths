@@ -1,0 +1,237 @@
+Newton's Forward Difference Table 
+
+Python
+
+import numpy as np
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(0,n-i):
+        y[j][i] = y[j+1][i-1] - y[j][i-1]
+print('\nFORWARD DIFFERENCE TABLE\n');
+for i in range(0,n):
+    print('%0.2f' % (x[i]), end = '')
+    for j in range(0, n-i):
+        print('\t\t%0.2f' % (y[i][j]), end = '')
+    print()
+
+Newton's Backward Difference Table 
+
+Python
+
+import numpy as np
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(n-1,i-2,-1):
+        y[j][i] = y[j][i-1] - y[j-1][i-1]
+print('\nBACKWARD DIFFERENCE TABLE\n');
+for i in range(0,n):
+    print('%0.2f' % (x[i]), end='')
+    for j in range(0, i+1):
+        print('\t%0.2f' % (y[i][j]), end='')
+    print()
+
+Divided Difference Table 
+
+Python
+
+import numpy as np
+n = int(input('Enter number of data points:'))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(0,n-i):
+        y[j][i] = (y[j+1][i-1] - y[j][i-1]) / (x[j+i] - x[j])
+print('\nDIVIDED DIFFERENCE TABLE\n');
+for i in range(0,n):
+    print('%0.2f' % (x[i]), end = '')
+    for j in range(0, n-i):
+        print('\t\t%0.2f' % (y[i][j]), end = '')
+    print()
+
+Newton's Forward Interpolation Formula 
+
+Python
+
+import numpy as np
+def u_cal(u, n):
+    temp = u;
+    for i in range(1, n):
+        temp = temp * (u - i);
+    return temp;
+def fact(n):
+    f = 1;
+    for i in range(2, n + 1):
+        f *= i;
+    return f;
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(0,n-i):
+        y[j][i] = y[j+1][i-1] - y[j][i-1]
+value = float(input('Value:'))
+sum = y[0][0];
+u = (value - x[0]) / (x[1] - x[0]);
+for i in range(1,n):
+    sum = sum + (u_cal(u, i) * y[0][i]) / fact(i);
+print("\nValue at", value, " is", round(sum, 6))
+
+Newton's Backward Interpolation Formula 
+
+Python
+
+import numpy as np
+def u_cal(u, n):
+    temp = u;
+    for i in range(1, n):
+        temp = temp * (u + i);
+    return temp;
+def fact(n):
+    f = 1;
+    for i in range(2, n + 1):
+        f *= i;
+    return f;
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(n-1,i-2,-1):
+        y[j][i] = y[j][i-1] - y[j-1][i-1]
+value = float(input('value:'))
+sum = y[n-1][0];
+u = (value - x[n-1]) / (x[1] - x[0]);
+for i in range(1, n):
+    sum = sum + (u_cal(u, i) * y[n-1][i]) / fact(i);
+print("\nValue at", value, "is", sum)
+
+Newton's Divided Difference Formula 
+
+Python
+
+import numpy as np
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n,n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i][0] = float(input( 'y['+str(i)+']='))
+for i in range(1,n):
+    for j in range(0,n-i):
+        y[j][i] = (y[j+1][i-1] - y[j][i-1]) / (x[i+j] - x[j])
+value = float(input('Interpolated Value:'))
+sum = y[0][0]
+for i in range(1,n):
+    sum = sum + ((value - x[i]) * y[0][i])
+print("\nValue at", value, "is", round(sum, n))
+
+Lagrange's Interpolation 
+
+Python
+
+import numpy as np
+n = int(input('Enter number of data points: '))
+x = np.zeros((n))
+y = np.zeros((n))
+print('Enter data for x and y:')
+for i in range(n):
+    x[i] = float(input( 'x['+str(i)+']='))
+    y[i] = float(input( 'y['+str(i)+']='))
+xp = float(input('Enter interpolation point: '))
+yp = 0
+for i in range(n):
+    p = 1
+    for j in range(n):
+        if i != j:
+            p = p * (xp - x[j])/(x[i] - x[j])
+    yp = yp + p * y[i]
+print('Interpolated value at %.3f is %.3f' % (xp, yp))
+
+Trapezoidal Rule 
+
+Python
+
+from math import *
+def Tr(a,b,n,f):
+    h = float(b-a)/n
+    I = f(a) + f(b)
+    for i in range(1,n):
+        I = I + 2*f(a+i*h)
+    I = (h/2)*I
+    return I
+
+Simpson's (1/3)rd Rule 
+
+Python
+
+from math import *
+def s13(a,b,n,f):
+    h = float(b-a)/n
+    I = f(a) + f(b)
+    for i in range(1,n):
+        k = a + i*h
+        if i%2 == 0:
+            I = I + 2*f(k)
+        else:
+            I = I + 4*f(k)
+    I = (h/3)*I
+    return I
+
+Simpson's (3/8)th Rule 
+
+Python
+
+from math import *
+def s38(a,b,n,f):
+    h = float(b-a)/n
+    I = f(a) + f(b)
+    for i in range(1,n):
+        k = a + i*h
+        if i%3 == 0:
+            I = I + 2*f(k)
+        else:
+            I = I + 3*f(k)
+    I = (3*h/8)*I
+    return I
+
+Euler's Method 
+
+Python
+
+def euler(x0,y0,xn,h,f):
+    n = int((xn-x0)/h)
+    x = [x0]
+    y = [y0]
+    print('\nThe y(x) in each interval\n')
+    for i in range(n):
+        y_new = y[i] + h*f(x[i],y[i])
+        x_new = x[i] + h
+        x.append(x_new)
+        y.append(y_new)
+        print(f"y({x_new}) = {y_new}")
+    print('\nBy Eulers Method the value of y at %0.3f is %0.3f:' % (x_new,y_new))
+    return x,y
